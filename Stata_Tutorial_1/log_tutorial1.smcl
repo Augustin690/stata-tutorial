@@ -1,0 +1,330 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/cal/exterieurs/acurinier-21/MODS_206/Stata_Tutorial_1/log_tutorial1.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}20 Feb 2023, 09:24:04
+
+{com}. ssc install mdesc
+{txt}checking {hilite:mdesc} consistency and verifying not already installed...
+installing into /cal/exterieurs/acurinier-21/ado/plus/...
+installation complete.
+
+{com}. pwd
+{res}/cal/exterieurs/acurinier-21/MODS_206/Stata_Tutorial_1
+
+{com}. dir
+
+{res}total 1
+-rw-r--r-- 1 acurinier-21 eleves 503 20 févr. 09:24 log_tutorial1.smcl
+
+{com}. use auto.dta
+{txt}(1978 Automobile Data)
+
+{com}. import excel auto.xls
+{res}{err}no; data in memory would be lost
+{res}{txt}{search r(4), local:r(4);}
+
+{com}. import excel "auto.xls"
+{res}{err}no; data in memory would be lost
+{res}{txt}{search r(4), local:r(4);}
+
+{com}. import excel "auto.xls", clear
+{res}{text}(12 vars, 67 obs)
+
+{com}. import delimited "auto.csv", clear
+{res}{txt}(encoding automatically selected: ISO-8859-1)
+{text}(12 vars, 67 obs)
+
+{com}. use Earnings_and_Height.dta, clear
+
+. describe
+
+{txt}Contains data from {res}Earnings_and_Height.dta
+{txt} Observations:{res}        17,870                  
+{txt}    Variables:{res}            11                  12 Feb 2023 09:51
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:sex            }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:sex      }{bind:  }{res}{res}Sex{p_end}
+{p 0 48}{bind:age            }{txt}{bind: byte    }{bind:{txt}%12.0g    }{space 1}{bind:age      }{bind:  }{res}{res}Age{p_end}
+{p 0 48}{bind:mrd            }{txt}{bind: byte    }{bind:{txt}%24.0g    }{space 1}{bind:mrd      }{bind:  }{res}{res}Marital Status{p_end}
+{p 0 48}{bind:educ           }{txt}{bind: byte    }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}Education of Individual{p_end}
+{p 0 48}{bind:cworker        }{txt}{bind: byte    }{bind:{txt}%18.0g    }{space 1}{bind:cworker  }{bind:  }{res}{res}Class of Worker{p_end}
+{p 0 48}{bind:region         }{txt}{bind: byte    }{bind:{txt}%11.0g    }{space 1}{bind:region   }{bind:  }{res}{res}Region{p_end}
+{p 0 48}{bind:race           }{txt}{bind: float   }{bind:{txt}%18.0g    }{space 1}{bind:race     }{bind:  }{res}{res}race/ethnicity{p_end}
+{p 0 48}{bind:earnings       }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:height         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:weight         }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:occupation     }{txt}{bind: float   }{bind:{txt}%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{txt}{hline}
+Sorted by: 
+
+{com}. br
+
+. sort earnings
+
+. br
+
+. gsort -earnings
+
+. gsort -earnings +age +region
+
+. generate identifier =_n
+
+. isid identifier
+
+. isid region
+{err}variable {bf:region} does not uniquely identify the observations
+{txt}{search r(459), local:r(459);}
+
+{com}. *isid region
+
+. codebook
+
+{txt}{hline}
+{res}sex{right:Sex}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+{ralign 22:Label}: {res:sex}
+
+{col 18}Range: [{res}0{txt},{res}1{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}2{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 13}Tabulation: Freq.   Numeric  Label
+{col 20}{res}     9,974{col 32}       0{col 42}{txt}0:female
+{col 20}{res}     7,896{col 32}       1{col 42}{txt}1:male
+
+{txt}{hline}
+{res}age{right:Age}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+{ralign 22:Label}: {res:age}, but {res:41} nonmissing values are not labeled
+
+{col 18}Range: [{res}25{txt},{res}65{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}41{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{ralign 23: Examples:}{col 25}{res}31{col 31}{txt}
+{ralign 23: }{col 25}{res}37{col 31}{txt}
+{ralign 23: }{col 25}{res}43{col 31}{txt}
+{ralign 23: }{col 25}{res}50{col 31}{txt}
+
+{txt}{hline}
+{res}mrd{right:Marital Status}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+{ralign 22:Label}: {res:mrd}
+
+{col 18}Range: [{res}1{txt},{res}6{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}6{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 13}Tabulation: Freq.   Numeric  Label
+{col 20}{res}    11,422{col 32}       1{col 42}{txt}1:Married, sps in hh
+{col 20}{res}       219{col 32}       2{col 42}{txt}2:Married, sps not in hh
+{col 20}{res}       432{col 32}       3{col 42}{txt}3:Widowed
+{col 20}{res}     2,582{col 32}       4{col 42}{txt}3:Divorced
+{col 20}{res}       572{col 32}       5{col 42}{txt}5:Separated
+{col 20}{res}     2,643{col 32}       6{col 42}{txt}6:Never Married
+
+{txt}{hline}
+{res}educ{right:Education of Individual}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+
+{col 18}Range: [{res}0{txt},{res}19{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}20{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:13.5373}
+{txt}{col 14}Std. dev.: {res}{ralign 7:2.64187}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:11}{ralign 10:      12}{ralign 10:      13}{ralign 10:      16}{ralign 10:      17}
+
+{txt}{hline}
+{res}cworker{right:Class of Worker}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+{ralign 22:Label}: {res:cworker}
+
+{col 18}Range: [{res}1{txt},{res}6{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}6{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 13}Tabulation: Freq.   Numeric  Label
+{col 20}{res}    12,475{col 32}       1{col 42}{txt}1:Private company
+{col 20}{res}       656{col 32}       2{col 42}{txt}2:Fed Govt emp
+{col 20}{res}       984{col 32}       3{col 42}{txt}3:State Govt emp
+{col 20}{res}     1,913{col 32}       4{col 42}{txt}4:Local Govt emp
+{col 20}{res}       355{col 32}       5{col 42}{txt}5:Incorporated bus
+{col 20}{res}     1,487{col 32}       6{col 42}{txt}6:Self-employed
+
+{txt}{hline}
+{res}region{right:Region}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+{ralign 22:Label}: {res:region}
+
+{col 18}Range: [{res}1{txt},{res}4{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}4{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 13}Tabulation: Freq.   Numeric  Label
+{col 20}{res}     3,636{col 32}       1{col 42}{txt}1:Northeast
+{col 20}{res}     4,593{col 32}       2{col 42}{txt}2:Midwest
+{col 20}{res}     5,794{col 32}       3{col 42}{txt}3:South
+{col 20}{res}     3,847{col 32}       4{col 42}{txt}4:West
+
+{txt}{hline}
+{res}race{right:race/ethnicity}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+{ralign 22:Label}: {res:race}
+
+{col 18}Range: [{res}1{txt},{res}4{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}4{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 13}Tabulation: Freq.   Numeric  Label
+{col 20}{res}    13,767{col 32}       1{col 42}{txt}non-hispanic white
+{col 20}{res}     2,029{col 32}       2{col 42}{txt}non-hispanic black
+{col 20}{res}     1,349{col 32}       3{col 42}{txt}hispanic
+{col 20}{res}       725{col 32}       4{col 42}{txt}other
+
+{txt}{hline}
+{res}earnings{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}4726.3911{txt},{res}84054.75{txt}]{col 55}Units: {res}.0001
+{col 10}{txt}Unique values: {res}23{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:46875.3}
+{txt}{col 14}Std. dev.: {res}{ralign 7:26923.3}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:16081.6}{ralign 10: 23362.9}{ralign 10: 38925.3}{ralign 10: 84054.8}{ralign 10: 84054.8}
+
+{txt}{hline}
+{res}height{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}48{txt},{res}84{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}34{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:66.9633}
+{txt}{col 14}Std. dev.: {res}{ralign 7:3.9675}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:62}{ralign 10:      64}{ralign 10:      67}{ralign 10:      70}{ralign 10:      72}
+
+{txt}{hline}
+{res}weight{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}80{txt},{res}501{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}227{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:170.357}
+{txt}{col 14}Std. dev.: {res}{ralign 7:51.4172}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:120}{ralign 10:     140}{ralign 10:     163}{ralign 10:     190}{ralign 10:     220}
+
+{txt}{hline}
+{res}occupation{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}1{txt},{res}15{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}15{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:6.01114}
+{txt}{col 14}Std. dev.: {res}{ralign 7:4.19169}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:1}{ralign 10:       2}{ralign 10:       5}{ralign 10:       8}{ralign 10:      13}
+
+{txt}{hline}
+{res}identifier{right:(unlabeled)}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}float{txt})
+
+{col 18}Range: [{res}1{txt},{res}17870{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}17,870{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:8935.5}
+{txt}{col 14}Std. dev.: {res}{ralign 7:5158.77}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:1787.5}{ralign 10:    4468}{ralign 10:  8935.5}{ralign 10:   13403}{ralign 10: 16083.5}
+
+{com}. 
+. codebook educ
+
+{txt}{hline}
+{res}educ{right:Education of Individual}
+{txt}{hline}
+
+{col 19}Type: Numeric ({res}byte{txt})
+
+{col 18}Range: [{res}0{txt},{res}19{txt}]{col 55}Units: {res}1
+{col 10}{txt}Unique values: {res}20{col 51}{txt}Missing .: {res}0{txt}/{res}17,870
+
+{txt}{col 19}Mean: {res}{ralign 7:13.5373}
+{txt}{col 14}Std. dev.: {res}{ralign 7:2.64187}
+
+{txt}{col 12}Percentiles: {col 25}{ralign 7:10%}{ralign 10:25%}{ralign 10:50%}{ralign 10:75%}{ralign 10:90%}
+{res}{col 25}{ralign 7:11}{ralign 10:      12}{ralign 10:      13}{ralign 10:      16}{ralign 10:      17}
+
+{com}. graph bar (mean) sex age
+{res}
+{com}. 
+. summarize educ
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 8}educ {c |}{res}     17,870    13.53733    2.641873          0         19
+
+{com}. sum educ, detail
+
+                   {txt}Education of Individual
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        6              0
+{txt} 5%    {res}       10              0
+{txt}10%    {res}       11              0       {txt}Obs         {res}     17,870
+{txt}25%    {res}       12              0       {txt}Sum of wgt. {res}     17,870
+
+{txt}50%    {res}       13                      {txt}Mean          {res} 13.53733
+                        {txt}Largest       Std. dev.     {res} 2.641873
+{txt}75%    {res}       16             19
+{txt}90%    {res}       17             19       {txt}Variance      {res} 6.979495
+{txt}95%    {res}       18             19       {txt}Skewness      {res}-.4159218
+{txt}99%    {res}       18             19       {txt}Kurtosis      {res} 4.508002
+
+{com}. tabulate cworker, missing
+
+   {txt}Class of Worker {c |}      Freq.     Percent        Cum.
+{hline 19}{c +}{hline 35}
+ 1:Private company {c |}{res}     12,475       69.81       69.81
+{txt}    2:Fed Govt emp {c |}{res}        656        3.67       73.48
+{txt}  3:State Govt emp {c |}{res}        984        5.51       78.99
+{txt}  4:Local Govt emp {c |}{res}      1,913       10.71       89.69
+{txt}5:Incorporated bus {c |}{res}        355        1.99       91.68
+{txt}   6:Self-employed {c |}{res}      1,487        8.32      100.00
+{txt}{hline 19}{c +}{hline 35}
+             Total {c |}{res}     17,870      100.00
+
+{com}. 
